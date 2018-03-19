@@ -1,8 +1,6 @@
 # Ashen 的博客
 
-<p align='center'>
-<img src='https://i.loli.net/2018/03/19/5aaf62620c089.png'>
-</p>
+![](resources/cover.png)
 
 <p align='center'>
 <img src="https://img.shields.io/badge/platform-iOS-ff69b4.svg">
