@@ -14,7 +14,7 @@
 ```
 XCode -> File -> New -> Project -> Cocoa Touch Framework
 ```
-![创建](resources/create_framework.png)
+![创建](../../resources/create_framework.png)
 创建SJTutorialSDK，并新建测试类名为 HelloWorld（Swift）、HelloOC(OC)，目录如下：
 
 ```
@@ -58,7 +58,7 @@ FOUNDATION_EXPORT const unsigned char SJTutorialSDKVersionString[];
 #import <SJTutorialSDK/HelloOC.h>
 ```
 Build Phases 配置如下:
-![header](Phases_Header.png)
+![header](../../resources/Phases_Header.png)
 至此，静态库.framework 创建完毕。
 
 ### 支持多种架构
@@ -67,7 +67,7 @@ Build Phases 配置如下:
 所以，如果你构建的静态库只需要支持iPhone 5S 及以上(或iPad mini2 及以上)的真机和模拟器，那么你的静态库将只需要支持 arm64 和 x86_64。
 
 - 1.调整到 Release(发布)模式：Edit Scheme -> Run -> Info -> Build Configuration -> Release；
-![release mode](resources/scheme.png)
+![release mode](../../resources/scheme.png)
 - 2. 分别使用真机、模拟器编译，生成对应的 SJTutorialSDK.framework；
 - 3. 合并 frameworks
 
