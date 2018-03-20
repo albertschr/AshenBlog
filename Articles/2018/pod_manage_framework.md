@@ -44,7 +44,7 @@ XCode -> File -> New -> Project -> Cocoa Touch Framework
 
 创建完成后的头文件如下：
 
-```Swift
+```Objective-C
 //  SJTutorialSDK.h
 //  SJTutorialSDK
 
@@ -183,7 +183,7 @@ Pod::Spec.new do |s|
 
 end
 ```
-关于 podspec 的内容，可以查看我之前写过的文章: [创建公共/私有pod --podspec](https://www.jianshu.com/p/1139a603f413), 这里也不再过多赘述。
+关于 podspec 的内容，可以查看我之前写过的文章：[创建公共/私有pod --podspec](https://www.jianshu.com/p/1139a603f413)，这里也不再过多赘述。
 由于当前仓库只是引用了几个静态库，所以 sources 可以不配置，只需要配置 vendored_frameworks 即可。
 
 - 2. 验证配置是否合理
@@ -229,8 +229,12 @@ git push --tag
 
 ## 资源
 [创建静态库demo: SJTutorialSDK](https://github.com/515783034/ArticleCode/tree/master/SJTutorialSDK)
+
 [静态库使用 demo: podSDK](https://github.com/515783034/podSDK.git)
+
 [iOS开发-.a与.framework区别？](https://www.jianshu.com/p/4a455425aae8)
+
 [iOS 中的 armv7,armv7s,arm64,i386,x86_64 都是什么](https://www.jianshu.com/p/3fce0bd6f045)
+
 [创建公共/私有pod --podspec](https://www.jianshu.com/p/1139a603f413)
 
