@@ -17,7 +17,7 @@
 </p>
 
 -------
-| 主题 | 文章 | 备注 |
+| 类型 | 文章 | 说明 |
 |:----:|:-------|:------|
-|iOS |[自建 iOS 静态库并用 pod 管理](./Articles/2018/pod_manage_framework.md)<br>|
+|iOS |[自建 iOS 静态库并用 pod 管理](./Articles/2018/pod_manage_framework.md)<br>[我用 Xcode+python 写的第一个 OSX app](./Articles/2018/first_python_ios_app.md)<br>[记一次半自动化的文稿搜集](./Articles/2018/automation_collection.md)|
 

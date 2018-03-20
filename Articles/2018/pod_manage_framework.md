@@ -1,3 +1,4 @@
+![](https://diycode.b0.upaiyun.com/photo/2018/7c0aeca1511c21c5573c9b529ff62a7c.png)
 # 自建 iOS 静态库并用 pod 管理
 
 ## 序言
