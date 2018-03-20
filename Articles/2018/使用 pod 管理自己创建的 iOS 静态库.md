@@ -9,7 +9,7 @@
 
 ## 创建静态库 framework
 最近公司由于和其他公司建立了各种合作关系，“创建 SDK”工作被提上了日程，由于之前没有自己做过，在生成 framework 时踩了一些坑，在这里记录下来以做总结，若码友能用得上则不胜开心。
-工作中难免会遇到这种情况，想把某个功能包装起来给其他人用，但是出于某种原因又不想公开自己的实现方式，这时就需要静态库（framework 或 .a）了。(PS：.a 和 .framework 的区别可以看下这篇文章: [iOS开发-.a与.framework区别？](https://www.jianshu.com/p/4a455425aae8))
+工作中难免会遇到这种情况，想把某个功能包装起来给其他人用，但是出于某种原因又不想公开自己的实现方式，这时就需要静态库（framework 或 .a）了。(PS：.a 和 .framework 的区别可以看下这篇文章：[iOS开发-.a与.framework区别？](https://www.jianshu.com/p/4a455425aae8)
 ### 如何创建静态库及引用其他静态库
 ```
 XCode -> File -> New -> Project -> Cocoa Touch Framework
@@ -39,8 +39,8 @@ XCode -> File -> New -> Project -> Cocoa Touch Framework
 ```
 
 - 1. 对于 Swift，对外暴露的文件需要用 public（或 open）修饰，并且要继承自 NSObject(或其子类)；
-- 2. 对于 OC，对外暴露的文件需要在“Build Phases -> Headers -> Public”添加相应头文件（例: HelloOC.h），并在 framework 的头文件（例: SJTutorialSDK.h）中添加对该头文件的引用(例:#import \<SJTutorialSDK/HelloOC.h\>)；
-- 3. 如果当前 framework 引用了第三方 framework，需要在头文件（例: SJTutorialSDK.h）中添加对第三方头文件的引用（例: #import \<SJDemoSDK/Animals.h\>)。
+- 2. 对于 OC，对外暴露的文件需要在“Build Phases -> Headers -> Public”添加相应头文件（例：HelloOC.h），并在 framework 的头文件（例：SJTutorialSDK.h）中添加对该头文件的引用(例：#import \<SJTutorialSDK/HelloOC.h\>)；
+- 3. 如果当前 framework 引用了第三方 framework，需要在头文件（例：SJTutorialSDK.h）中添加对第三方头文件的引用（例：#import \<SJDemoSDK/Animals.h\>)。
 
 创建完成后的头文件如下：
 
@@ -58,7 +58,7 @@ FOUNDATION_EXPORT const unsigned char SJTutorialSDKVersionString[];
 // 对外暴露的头文件（仅限于 OC，Swift 添加 public 后会自动导入）
 #import <SJTutorialSDK/HelloOC.h>
 ```
-Build Phases 配置如下:
+Build Phases 配置如下：
 ![header](../../resources/Phases_Header.png)
 
 至此，静态库.framework 创建完毕。
@@ -227,5 +227,10 @@ git push --tag
 - 4. 在真机和模拟器下分别编译，然后合并 framework；
 - 5. pod trunk push.
 
-
+## 资源
+[创建静态库demo: SJTutorialSDK](https://github.com/515783034/ArticleCode/tree/master/SJTutorialSDK)
+[静态库使用 demo: podSDK](https://github.com/515783034/podSDK.git)
+[iOS开发-.a与.framework区别？](https://www.jianshu.com/p/4a455425aae8)
+[iOS 中的 armv7,armv7s,arm64,i386,x86_64 都是什么](https://www.jianshu.com/p/3fce0bd6f045)
+[创建公共/私有pod --podspec](https://www.jianshu.com/p/1139a603f413)
 
