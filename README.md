@@ -1,6 +1,6 @@
 # Ashen 的博客
 
-![](resources/cover.png)
+![](https://i.loli.net/2018/03/20/5ab071f3ad075.png)
 
 <p align='center'>
 <img src="https://img.shields.io/badge/platform-iOS-ff69b4.svg">
@@ -16,4 +16,6 @@
 
 </p>
 
+-------
+[使用 pod 管理自己创建的 iOS 静态库](2018/使用 pod 管理自己创建的 iOS 静态库.md)
 
