@@ -19,5 +19,5 @@
 -------
 | 主题 | 文章 | 备注 |
 |:----:|:-------|:------|
-|iOS |[使用 pod 管理自己创建的 iOS 静态库](./Articles/2018/pod_manage_framework.md)<br>|
+|iOS |[自建 iOS 静态库并用 pod 管理](./Articles/2018/pod_manage_framework.md)<br>|
 

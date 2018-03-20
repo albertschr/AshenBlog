@@ -1,4 +1,4 @@
-# 使用 pod 管理自己创建的 iOS 静态库
+# 自建 iOS 静态库并用 pod 管理
 
 ## 序言
 本文将主要讨论如下几个问题：
@@ -10,11 +10,11 @@
 ## 创建静态库 framework
 最近公司由于和其他公司建立了各种合作关系，“创建 SDK”工作被提上了日程，由于之前没有自己做过，在生成 framework 时踩了一些坑，在这里记录下来以做总结，若码友能用得上则不胜开心。
 工作中难免会遇到这种情况，想把某个功能包装起来给其他人用，但是出于某种原因又不想公开自己的实现方式，这时就需要静态库（framework 或 .a）了。(PS：.a 和 .framework 的区别可以看下这篇文章：[iOS开发-.a与.framework区别？](https://www.jianshu.com/p/4a455425aae8)
-### 如何创建静态库及引用其他静态库
+### 创建静态库
 ```
 XCode -> File -> New -> Project -> Cocoa Touch Framework
 ```
-![创建](../../resources/create_framework.png)
+![创建](https://i.imgur.com/sf4vidY.png)
 
 创建 SJTutorialSDK，并新建测试类名为 HelloWorld（Swift）、HelloOC(OC)，目录如下：
 
@@ -59,7 +59,7 @@ FOUNDATION_EXPORT const unsigned char SJTutorialSDKVersionString[];
 #import <SJTutorialSDK/HelloOC.h>
 ```
 Build Phases 配置如下：
-![header](../../resources/Phases_Header.png)
+![header](https://i.imgur.com/HvD7nRR.png)
 
 至此，静态库.framework 创建完毕。
 
@@ -69,7 +69,7 @@ Build Phases 配置如下：
 所以，如果你构建的静态库只需要支持 iPhone 5S 及以上(或 iPad mini2 及以上)的真机和模拟器，那么你的静态库将只需支持 arm64 和 x86_64 架构。
 
 - 1. 调整到 Release(发布)模式：Edit Scheme -> Run -> Info -> Build Configuration -> Release；
-![release mode](../../resources/scheme.png)
+![release mode](https://i.imgur.com/G5mF9GU.png)
 
 - 2. 分别使用真机、模拟器编译，生成对应的 SJTutorialSDK.framework；
 - 3. 合并 frameworks
@@ -138,7 +138,7 @@ pod 'SJTutorialSDK'
 ```
 两者对比起来，高下立判。所以建议还是通过 trunk 来 push 自己的代码。
 
-### github 新建仓库及配置 podspec 文件
+### 配置 podspec 文件
 如何在 github 上新建仓库，网上已经有很多的教程，这里不再赘述，这里主要谈谈配置 podspec 文件。
 
 podSpec 官方解释: [A Podspec, or Spec, describes a version of a Pod library.](http://guides.cocoapods.org/making/specs-and-specs-repo.html) ，其实就是一个描述 pod 库的信息(版本，依赖，作者，描述，系统库等)的文件。
