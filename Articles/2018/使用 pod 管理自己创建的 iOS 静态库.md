@@ -1,14 +1,14 @@
 # 使用 pod 管理自己创建的 iOS 静态库
 
 ## 序言
-本文将主要讨论如下几个问题:
+本文将主要讨论如下几个问题：
 - 1. OC 和 Swift 混编的形式创建支持多种架构的静态库（.framework）；
-- 2. 静态库引用其他静态库（.framework 或 .a);
-- 3. 静态库支持添加资源文件；
+- 2. 静态库引用其他静态库（.framework 或 .a)；
+- 3. 静态库添加资源文件；
 - 4. pod 管理静态库。
 
 ## 创建静态库 framework
-最近由于和其他公司建立了各种合作关系，恼人的‘创建 SDK’工作被提上了日程，由于之前没有自己做过，在生成 framework 的时候踩了一些坑，后来在同事的帮助下总算是解决了，心中不免有些激动，在这里记录下来给用得上的码友们。
+最近公司由于和其他公司建立了各种合作关系，“创建 SDK”工作被提上了日程，由于之前没有自己做过，在生成 framework 时踩了一些坑，在这里记录下来以做总结，若码友能用得上则不胜开心。
 工作中难免会遇到这种情况，想把某个功能包装起来给其他人用，但是出于某种原因又不想公开自己的实现方式，这时就需要静态库（framework 或 .a）了。(PS：.a 和 .framework 的区别可以看下这篇文章: [iOS开发-.a与.framework区别？](https://www.jianshu.com/p/4a455425aae8))
 ### 如何创建静态库及引用其他静态库
 ```
@@ -16,7 +16,7 @@ XCode -> File -> New -> Project -> Cocoa Touch Framework
 ```
 ![创建](../../resources/create_framework.png)
 
-创建SJTutorialSDK，并新建测试类名为 HelloWorld（Swift）、HelloOC(OC)，目录如下：
+创建 SJTutorialSDK，并新建测试类名为 HelloWorld（Swift）、HelloOC(OC)，目录如下：
 
 ```
 ├── SJTutorialSDK
@@ -38,13 +38,13 @@ XCode -> File -> New -> Project -> Cocoa Touch Framework
                 └── xcschememanagement.plist
 ```
 
-- 1. 对于 Swift，需要对外暴露的文件需要用 public（或 open）修饰，并且要继承自 NSObject(或其子类)；
-- 2. 对于 OC，需要对外暴露的文件需要在“Build Phases -> Headers -> Public”添加相应头文件（例: HelloOC.h），并在 framework 的头文件（例: SJTutorialSDK.h）中添加该头文件的引用(例:#import \<SJTutorialSDK/HelloOC.h\>)
-- 3. 如果当前 framework 引用了第三方 framework，需要在头文件（例: SJTutorialSDK.h）中添加对第三方头文件的引用（例: #import \<SJDemoSDK/Animals.h\>)
+- 1. 对于 Swift，对外暴露的文件需要用 public（或 open）修饰，并且要继承自 NSObject(或其子类)；
+- 2. 对于 OC，对外暴露的文件需要在“Build Phases -> Headers -> Public”添加相应头文件（例: HelloOC.h），并在 framework 的头文件（例: SJTutorialSDK.h）中添加对该头文件的引用(例:#import \<SJTutorialSDK/HelloOC.h\>)；
+- 3. 如果当前 framework 引用了第三方 framework，需要在头文件（例: SJTutorialSDK.h）中添加对第三方头文件的引用（例: #import \<SJDemoSDK/Animals.h\>)。
 
 创建完成后的头文件如下：
 
-```
+```Swift
 //  SJTutorialSDK.h
 //  SJTutorialSDK
 
@@ -64,11 +64,11 @@ Build Phases 配置如下:
 至此，静态库.framework 创建完毕。
 
 ### 支持多种架构
-我们开发过程中经常提到的arm64，x86_64具体是什么东西呢？这里可以参考这篇文章: [iOS 中的 armv7,armv7s,arm64,i386,x86_64 都是什么](https://www.jianshu.com/p/3fce0bd6f045)。
-简单点来说：模拟器 32/64 位处理器分别需要 i386/x86_64 架构，真机 32/64 位处理器分别需要 armv7(armv7s)/arm64。
-所以，如果你构建的静态库只需要支持iPhone 5S 及以上(或iPad mini2 及以上)的真机和模拟器，那么你的静态库将只需要支持 arm64 和 x86_64。
+我们开发过程中经常提到的 arm64，x86_64 具体是什么东西呢？这里可以参考这篇文章: [iOS 中的 armv7,armv7s,arm64,i386,x86_64 都是什么](https://www.jianshu.com/p/3fce0bd6f045)。
+简单点来说：模拟器 32/64 位处理器分别需要 i386/x86_64 架构，真机 32/64 位处理器分别需要 armv7(armv7s)/arm64 架构。
+所以，如果你构建的静态库只需要支持 iPhone 5S 及以上(或 iPad mini2 及以上)的真机和模拟器，那么你的静态库将只需支持 arm64 和 x86_64 架构。
 
-- 1.调整到 Release(发布)模式：Edit Scheme -> Run -> Info -> Build Configuration -> Release；
+- 1. 调整到 Release(发布)模式：Edit Scheme -> Run -> Info -> Build Configuration -> Release；
 ![release mode](../../resources/scheme.png)
 
 - 2. 分别使用真机、模拟器编译，生成对应的 SJTutorialSDK.framework；
@@ -77,11 +77,13 @@ Build Phases 配置如下:
 ```
 # 查看静态库支持的架构
 lipo -info xxx
+
 # 合并 xxx1 和 xxx2，最后的文件支持两者支持的所有架构
 lipo -create xxx1 xxx2 -output xxx1
+eg:
 lipo -creat Release-iphoneos/SJTutorialSDK.framework/SJTutorialSDK Release-iphonesimulator/SJTutorialSDK.framework/SJTutorialSDK -output Release-iphoneos/SJTutorialSDK.framework/SJTutorialSDK
 ```
-生成 framework 时踩过的坑：output 的文件是 xxx，而不是 xxx.framework
+生成 framework 时踩过的坑：-output 的文件是 xxx，而不是 xxx.framework
 
 - 4. 查看最后的静态库支持架构:
 
@@ -91,8 +93,8 @@ Architectures in the fat file: /Users/shijian/Desktop/SJTutorialSDK.framework/SJ
 ```
 ### 添加资源文件
 在 iOS 中，可以通过 Bundle 文件管理资源文件(图片，语音，视频，plist，xib，storyboard等)，Bundle 文件实际上就是个普通的文件夹，只是在名字中添加了 .Bundle 的后缀而已。
-对图片的命名最好添加上 @3x/@2x,这样系统会自动放在对应的位置，不需要我们额外的操作。
-- 1. 新建文件夹 xxx，并添加相应资源，然后更名为 xxx.Bundle，也可以直接新建 xxx.Bundle, 鼠标右键 -> 显示包内容 -> 添加相应文件；
+对图片的命名最好添加上 @3x/@2x，这样系统会自动放在对应的位置，不需要我们额外的操作。
+- 1. 新建文件夹 xxx，并添加相应资源，然后更名为 xxx.Bundle，也可以直接新建 xxx.Bundle，鼠标右键 -> 显示包内容 -> 添加相应文件；
 
 ```
 .
@@ -123,7 +125,7 @@ public class TutorialRes: NSObject {
     
 }
 ```
-至此，静态库已经创建完毕，当前创建的静态库 SJTutorialSDK, 支持: OC 和 Swift 混编，引用了其他第三方库，资源文件读取，多种架构。
+至此，静态库已经创建完毕，当前创建的静态库 SJTutorialSDK 有如下特性：支持 OC 和 Swift 混编，引用了其他第三方库，支持资源文件读取，支持多种架构。
 
 ## pod 管理静态库
 如果自己的静态库是私有的，可以跳过 trunk 环节，直接在自己的代码仓库中创建好仓库，然后配置相应的 podspec 文件，pod 引用时指定对应的路径即可。但大多数情况下还是要给其他人使用的，我们当然也可以不通过 trunk，直接在引用时指定地址来使用当前仓库，但是这样用起来总是不那么直观。
@@ -139,9 +141,9 @@ pod 'SJTutorialSDK'
 ### github 新建仓库及配置 podspec 文件
 如何在 github 上新建仓库，网上已经有很多的教程，这里不再赘述，这里主要谈谈配置 podspec 文件。
 
-podSpec 官方解释: [A Podspec, or Spec, describes a version of a Pod library.](http://guides.cocoapods.org/making/specs-and-specs-repo.html) ,其实就是一个描述 pod 库的信息(版本，依赖，作者，描述，系统库等)的文件。
+podSpec 官方解释: [A Podspec, or Spec, describes a version of a Pod library.](http://guides.cocoapods.org/making/specs-and-specs-repo.html) ，其实就是一个描述 pod 库的信息(版本，依赖，作者，描述，系统库等)的文件。
 
-- 1.配置 SJTutorialSDK.podspec
+- 1. 配置 SJTutorialSDK.podspec
 
 ``` Shell
 Pod::Spec.new do |s|
@@ -173,7 +175,7 @@ Pod::Spec.new do |s|
   # 依赖的系统静态库
   # s.libraries = "iconv", "z"
 
-  # 本库提供的a静态库
+  # 本库提供的 .a 静态库
   #s.vendored_libraries  = 'podSDK/Sources/*.a'
 
   # 本库添加的第三方依赖库
@@ -181,10 +183,10 @@ Pod::Spec.new do |s|
 
 end
 ```
-关于 podspec 的内容，可以查看之前写过的文章: [创建公共/私有pod --podspec](https://www.jianshu.com/p/1139a603f413), 这里也不再过多赘述。
+关于 podspec 的内容，可以查看我之前写过的文章: [创建公共/私有pod --podspec](https://www.jianshu.com/p/1139a603f413), 这里也不再过多赘述。
 由于当前仓库只是引用了几个静态库，所以 sources 可以不配置，只需要配置 vendored_frameworks 即可。
 
-- 2.验证配置是否合理
+- 2. 验证配置是否合理
 
 ```Shell
 pod lib lint
@@ -195,6 +197,7 @@ pod lib lint
 
 ```Shell
 pod trunk push SJTutorialSDK.podspec
+# 忽略警告的方式同上
 ```
 
 - 4. 版本控制(tag)
@@ -215,4 +218,14 @@ git push --tag
  🌎  https://cocoapods.org/pods/podSDK
  👍  Tell your friends!
 ```
+
+## 总结
+静态库的创建并没有太复杂的操作，主要步骤如下：
+- 1. 创建 Cocoa Touch Framework，添加对应文件；
+- 2. 暴露出需要对外公开的头文件；
+- 3. 添加资源文件 Bundle，并提供相应的获取方法；
+- 4. 在真机和模拟器下分别编译，然后合并 framework；
+- 5. pod trunk push.
+
+
 
