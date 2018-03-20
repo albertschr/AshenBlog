@@ -17,7 +17,7 @@
 </p>
 
 -------
-| 类型 | 文章 | 说明 |
+|类型 | <div align='center'>文章</div> |  <div align='center'>说明</div> |
 |:----:|:-------|:------|
-|iOS |[自建 iOS 静态库并用 pod 管理](./Articles/2018/pod_manage_framework.md)<br>[我用 Xcode+python 写的第一个 OSX app](./Articles/2018/first_python_ios_app.md)<br>[记一次半自动化的文稿搜集](./Articles/2018/automation_collection.md)|
+|iOS |[自建 iOS 静态库并用 pod 管理](./Articles/2018/pod_manage_framework.md)<br><br>[我用 Xcode+python 写的第一个 OSX app](./Articles/2018/first_python_ios_app.md)<br><br>[记一次半自动化的文稿搜集](./Articles/2018/automation_collection.md)<br><br>[用 scrapy 爬微信公众号的内容](./Articles/2018/scrapy_wechat_official.md)<br><br>[在 swift 中接入微信开源库 Mars](./Articles/2018/mars_in_swift.md)||
 
